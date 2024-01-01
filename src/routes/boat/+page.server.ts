@@ -10,10 +10,16 @@ export const load = (async ({ cookies }) => {
 }) satisfies PageServerLoad;
 
 export const actions: Actions = {
-  default: async ({ request, cookies }) => {
+  rename: async ({ request, cookies }) => {
     const formData = await request.formData();
     const boatName = formData.get('boatName') as string;
 
     cookies.set('boatName', boatName, { path: '/boat' });
+  },
+  capitalize: async ({ request, cookies }) => {
+    const formData = await request.formData();
+    const boatName = formData.get('boatName') as string;
+
+    cookies.set('boatName', boatName.toUpperCase(), { path: '/boat' });
   }
 };

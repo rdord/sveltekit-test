@@ -7,7 +7,9 @@
 
 <h1>Hello {data.boatName}</h1>
 
-<form method="POST" use:enhance>
+<form method="POST" action="?/rename" use:enhance>
   <input type="text" name="boatName" />
   <button type="submit">Submit</button>
+
+  <button formaction="?/capitalize">Capitalize</button>
 </form>
