@@ -18,6 +18,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app, 'gs://my-custom-bucket');
+const auth = getAuth();
+const db = getFirestore();
+const storage = getStorage();
