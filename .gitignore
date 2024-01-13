@@ -8,3 +8,5 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+svelte-course-63bc5-firebase-adminsdk-srfvx-70d19b08a7.json
+
