@@ -2,9 +2,10 @@
 import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { getAuth } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { writable } from 'svelte/store';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,3 +22,30 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db = getFirestore();
 export const storage = getStorage();
+
+// Returs a store wih the current user data
+function userStore() {
+  let unsubscribe: () => void;
+
+  if (!auth || !globalThis.window) {
+    console.warn('Auth is not initialized or not in browser');
+    const currentUser = writable<User | null>(null);
+    return {
+      subscribe: currentUser.subscribe
+    };
+  }
+
+  const currentUser = writable(auth?.currentUser ?? null, set => {
+    unsubscribe = onAuthStateChanged(auth, user => {
+      set(user);
+    });
+
+    return () => unsubscribe();
+  });
+
+  return {
+    subscribe: currentUser.subscribe
+  };
+}
+
+export const user = userStore();
